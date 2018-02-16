@@ -107,7 +107,7 @@ Image with Height and Width Adjusted:
 
 <!--- Fill you answer here. --->
 ![Hometown](/Image/NYC.jpg)
-<img src="https://github.com/AguaClara/Personal/image/NYC.jpg?raw=true" height=200 width=100>
+<img src="https://github.com/VanessaQi/Personal/blob/master/image/NYC.jpg?raw=true" height=200 width=100>
 
 
 
@@ -119,7 +119,7 @@ To insert a link, all you have to do is enclose your linked text in `[]` followe
 1. Below, write a sentence describing your major, and insert a link to your major's department website.
 
 <!--- Fill you answer here. --->
-
+[CHEMES DON'T SLEEP](https://www.cheme.cornell.edu/)
 ## Tables
 Tables in Markdown are slightly harder, but there's an automatic function that allows to you make one easily. When working in a `.md` file, all you have to do is type `table` and hit enter. It will initialize a 2 by 2 table, but you can easily increase the width by going to the last column and hitting `Tab` or it's height by clicking in any cell and hitting `Enter`. Notice in the example how the text below the header is justified left, center, and right. This is due to the line below the header. A line with a colon on the far left of the dashes only indicates left justified, colons on both sides of the dashes indicates centered, and a colon on the far right of the dashes indicates right justified.
 
@@ -149,6 +149,13 @@ When making tables, it's not important that the lines match up. For example, the
 1. Create a table listing your 3 favorite animals, foods, books, and places on campus. Try out the different cell justifications:
 
 <!--- Fill you answer here. --->
+| favorite animals | favorite foods |   favorite books | favorite places on campus |
+|:----------------:|:-------------- | ----------------:| -------------------------:|
+|      panda       | ice cream      |     Harry Potter |                   My dorm |
+|       frog       | milk           |         Twilight |                 Olin Hall |
+|       dog        | Apple          | The Hunger Games |              Olin Library |
+
+
 
 
 
@@ -168,11 +175,13 @@ For larger code blocks where you report multiple lines of code, you always start
 1. Below, write a Python print function with a different string using syntax highlighting:
 
 <!--- Fill you answer here. --->
-
+`print('Welcome World!')`
 2. Now write a block of Python code for that same print statement:
 
 <!--- Fill you answer here. --->
-
+```python
+Welcome World
+```
 
 
 ## LaTeX Equations
@@ -183,7 +192,7 @@ $$ Re_D = \frac{uD}{\nu} $$
 1. Try it on your own! Write your favorite equation using LaTeX source code and toggle the LaTeX preview to see it formatted:
 
 <!--- Fill you answer here. --->
-
+$$F={m}{a}$$
 
 # Using Python and Running it With Hydrogen in Markdown
 
@@ -219,13 +228,28 @@ These questions are meant to test what you've learned from the Python Basics tut
 1. Write a conditional statement with 3 conditions: when x is 10, when x is 1, and when x is anything other than 1 or 10. For each condition, have your code print what the value is or isn't.
 
 <!--- Fill you answer here. --->
+```Python
+if x==10:
+print ('x is 10')
+elif x==1:
+print ('x is 1')
+else:
+  print ('x is neither 10 nor 1')
 
+```
 
 
 
 2. Write a `for` loop that takes a variable with an initial value of 0, and adds the current index to the previous value of that variable (i.e. you variable should grow in size every iteration). Perform the iteration 20 times, and have the final value be printed at the end.
 
 <!--- Fill you answer here. --->
+```Python
+x=0
+for i in range(20):
+  x=x+i
+print(x)
+
+```
 
 
 
@@ -238,14 +262,32 @@ These questions are meant to test what you've learned from the Python Basics tut
 3. Using the NumPy package and `unit_registry`, calculate the value of sin(4) meters, and use the sigfig function from the unit unit_registry module in aide_design to get your answer to 2 sig-figs. *(Hint: You will need to import these packages. Remember how to do that?)*
 
 <!--- Fill you answer here. --->
+```python
+from aide_design.play import*
+a=np.sin(4)*u.m
+u.default_format = '.3f'
+print (a)
 
+```
 
 
 4. Create a `list` of length 5, and verify the length of your list. Once you've done that, turn your `list` into an `array` and apply units of meters to it. After that, create a 5x5 `array`, extract the middle row and middle column. Verify the size of your 2D `array` and apply units of liters to it.
 
 <!--- Fill you answer here. --->
 
-
+```python
+myList=[0,1,2,3,4]
+l=len(myList)
+print(l)
+from aide_design.play import*
+myArray = np.array(myList)
+myArrayUnits = myArray * u.m
+my2DArray = np.array([[1 ,2, 3,4,5], [1, 2, 3,4,5], [1, 2, 3,4,5],[1,2,3,4,5],[1,2,3,4,5]])
+my2DArray[:,2]
+my2DArray[2,:]
+np.size(my2DArray)
+myArrayUnits = my2DArray * u.liter
+```
 
 
 
@@ -262,24 +304,51 @@ These questions are meant to test what you've learned from the Python Basics tut
 $$ D = \frac{k_BT}{6\pi\eta r} $$
 
 ```python
+
 from scipy.constants import Boltzmann as kB_sc # I've imported the unitless value for kB from SciPy
 
 kB = kB_sc * u.joule / u.kelvin # I've given kB units for you in J/K; you can use the kB variable to give you Boltzmann's constant with units
 
 # Write your code here
-
+from aide_design.play import*
+def SEeqn (T, eta, r):
+  T = T * u.kelvin
+  eta=eta*u.kilogram/u.meter/u.second
+  r=r*u.meter
+  D=(kB*T/6/np.pi/eta/r).to_base_units()
+  return D
+SEeqn(298,0.00089,1.5*10**(-10) )
 ```
 
 6. You have a pipe with a radius of 0.2 m with water flowing in it at 2 m<sup>3</sup>/s. You want to see how the Reynolds Number changes as viscosity changes due to a change in temperature from 0 to 200<sup>o</sup>C. Create a plot of Reynolds Number against Temperature in Kelvin to show a relationship. Make sure your plot has a title, labeled axes, and axes grid. You can use functions from `physchem` like `pc.re_pipe` and `pc.viscosity_kinematic`. *(Hint: Make an array of temperatures to input into the `pc.viscosity_kinematic` function)*. Make sure to save you plot to your images folder in your personal repository, and display it below using `plt.show()` and a relative file path to the image.
 
 <!--- Fill you answer here. --->
+```Python
 
+from aide_design.play import*
+T=np.array([273,323,373,424,473])
+u=pc.viscosity_kinematic(T)
+y=pc.re_pipe(15.9, 0.4, u)
+plt.plot(T,y,'-',label='Reynolds number vs Temperature(Kelvin)')
+plt.xlabel('Temperature(K)')
+plt.ylabel('Reynolds number')
+plt.title('Reynolds number vs Temperature(Kelvin)')
+plt.minorticks_on()
+plt.grid(which = 'major')
+plt.grid(which = 'minor')
+
+plt.tight_layout()
+plt.savefig('/Users/vanessa/github/Personal/image/Reynolds.png')
+plt.show()
+
+```
 # Teletype Basics
 In this section you and your team can practice using Teletype together.
 
 1. Create a portal for your team members to join. Have them write you words of  encouragement in the space below, and be sure they sign their name next to their encouragements.
 
-<!--- Fill you answer here. --->
+You're a great ChemE!! -Samba Sowe
+you're the best! - Peter McGurk
 
 
 
@@ -287,7 +356,7 @@ In this section you and your team can practice using Teletype together.
 2. Have you other team members create a portal for you to join. In their Markdown file, write them something encouraging, and sign your name.
 
 <!--- Fill you answer here. --->
-
+I wrote in Samba and Peter's portals.
 
 # GitHub Basics
 Congratulations! You've completed this interactive tutorial. Now all you need to do is save your work and put it on your personal repository. Toggle the Git Tab using `Cntrl + Shift + 9`.
